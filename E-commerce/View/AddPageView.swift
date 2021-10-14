@@ -9,11 +9,7 @@ import UIKit
 
 class AddPageView: UIView {
     
-    let myButton = UIButton(type: .system)
-    AddPageView.view.addSubview(myButton)
-    
-    
-    
+    let myButton = UIButton(type: .roundedRect)
     
     
     override init(frame: CGRect) {
