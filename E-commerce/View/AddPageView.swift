@@ -13,21 +13,21 @@ class AddPageView: UIView {
     let labelNames = ["Ship Mode","Country","City","State","Product ID","Category","Sub-Category","Product Name","Sales","Quantity","Discount","Profit"]
     
     func addLabel(textParam:String, y:Double) -> UILabel {
-            let label = UILabel()
-            label.frame = CGRect(x: 30, y: y, width: 350, height: 30)
-            label.textAlignment = NSTextAlignment.left
-    //        label.backgroundColor = UIColor(rgb: 0x2F4858)
-            label.layer.masksToBounds = true
-            label.layer.cornerRadius = 5
-            label.textColor = UIColor(rgb: 0x2F4858)
-            label.font = UIFont.boldSystemFont(ofSize: 20.0)
-            label.text = textParam
-            return label
+        let label = UILabel()
+        label.frame = CGRect(x: 25, y: y, width: 350, height: 30)
+        label.textAlignment = NSTextAlignment.left
+        //        label.backgroundColor = UIColor(rgb: 0x2F4858)
+        label.layer.masksToBounds = true
+        label.layer.cornerRadius = 5
+        label.textColor = UIColor(rgb: 0x2F4858)
+        label.font = UIFont.boldSystemFont(ofSize: 20.0)
+        label.text = textParam
+        return label
     }
     
     func addTextField(y:Double) -> UITextField {
         let field = UITextField()
-        field.frame = CGRect(x: 30, y: y, width: 350, height: 30)
+        field.frame = CGRect(x: 25, y: y, width: 350, height: 30)
         field.textAlignment = NSTextAlignment.left
         field.backgroundColor = UIColor(rgb: 0x2F4858)
         field.layer.masksToBounds = true
@@ -37,8 +37,17 @@ class AddPageView: UIView {
         return field
     }
     
-    
-    
+    lazy var addButton: UIButton = {
+        let button = UIButton()
+        button.frame = CGRect(x: 135, y: 980, width: 100, height: 50)
+        button.backgroundColor = .brown
+        button.layer.masksToBounds = true
+        button.layer.cornerRadius = 5
+        button.setTitle("UPLOAD", for: .normal)
+        button.setTitleColor(.black, for: .normal)
+        return button
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -52,11 +61,25 @@ class AddPageView: UIView {
     private func setupView() {
         backgroundColor = UIColor(rgb: 0x86BBD8)
         
+        let screensize: CGRect = UIScreen.main.bounds
+        let screenWidth = screensize.width
+        let screenHeight = screensize.height
+        let scrollView = UIScrollView(frame: CGRect(x: 15, y: 130, width: screenWidth - 30, height: screenHeight))
+        scrollView.backgroundColor = .black.withAlphaComponent(0.05)
+        scrollView.layer.masksToBounds = true
+        scrollView.layer.cornerRadius = 10
+        
         for (index,item) in labelNames.enumerated() {
-            let newy = Double(130 + (index * 80))
-            addSubview(addLabel(textParam: item,  y: newy))
-            addSubview(addTextField( y: newy + 30.0))
+            let newy = Double(10 + (index * 80))
+            scrollView.addSubview(addLabel(textParam: item,  y: newy))
+            scrollView.addSubview(addTextField( y: newy + 30.0))
+            //            addSubview(addLabel(textParam: item,  y: newy))
+            //            addSubview(addTextField( y: newy + 30.0))
         }
+        
+        scrollView.addSubview(addButton)
+        scrollView.contentSize = CGSize(width: screenWidth - 30, height: 1180)
+        addSubview(scrollView)
     }
 }
 
