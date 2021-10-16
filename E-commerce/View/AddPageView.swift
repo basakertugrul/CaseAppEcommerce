@@ -9,8 +9,10 @@ import UIKit
 
 class AddPageView: UIView {
     
+    let labelNames = ["Category","City","Country","Discount","Product ID","Product Name","Profit","Quantity","Sales","Ship Mode","State","Sub-Category",]
     
-    let labelNames = ["Ship Mode","Country","City","State","Product ID","Category","Sub-Category","Product Name","Sales","Quantity","Discount","Profit"]
+    var textFieldArray: [UITextField] = []
+    var vc = AddViewController()
     
     func addLabel(textParam:String, y:Double) -> UILabel {
         let label = UILabel()
@@ -34,20 +36,123 @@ class AddPageView: UIView {
         field.layer.cornerRadius = 5
         field.textColor = .white
         field.font = UIFont.systemFont(ofSize: 18.00)
+        field.text = "asdf"
         return field
     }
     
     lazy var addButton: UIButton = {
         let button = UIButton()
         button.frame = CGRect(x: 135, y: 980, width: 100, height: 50)
-        button.backgroundColor = .brown
+        button.backgroundColor = UIColor(rgb: 0xF26419)
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 5
         button.setTitle("UPLOAD", for: .normal)
         button.setTitleColor(.black, for: .normal)
+        button.addTarget(self, action: #selector(pressed(_ :)), for: .touchUpInside)
         return button
     }()
-
+    
+    @objc func pressed(_ sender: UIButton) {
+        var emptyFields:[Int] = []
+        var dataFetch:[String] = []
+        for (index,item) in textFieldArray.enumerated() {
+            dataFetch.append(item.text ?? "")
+            
+            if item.text == "" {
+                print(String(index) + " boş")
+                emptyFields.append(index)
+            }
+        }
+        if !emptyFields.isEmpty{
+            let view = self.warningDisplay()
+            UIView.animate(withDuration: 4, delay: 0.0, options: [.curveEaseOut, .autoreverse], animations: {
+                self.addSubview(view)
+            }, completion: nil)
+            let seconds = 4.0
+            DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+                view.removeFromSuperview()
+            }
+        }
+        else {
+            vc.dataUpdate(data: dataFetch)
+        }
+    }
+    
+    func successFunc() {
+        let view = self.successLoading()
+        UIView.animate(withDuration: 4, delay: 0.0, options: [.curveEaseOut, .autoreverse], animations: {
+            self.addSubview(view)
+        }, completion: nil)
+        let seconds = 4.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            view.removeFromSuperview()
+        }
+    }
+    
+    func successLoading() -> UIView {
+        
+        for item in textFieldArray {
+            item.text = ""
+        }
+        
+        let background = UIView()
+        background.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height)
+        background.backgroundColor = .black.withAlphaComponent(0.1)
+        
+        let view = UIButton()
+        view.frame = CGRect(x: 50, y: 400, width: 335, height: 50)
+        view.backgroundColor = UIColor(rgb: 0xF26419)
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 5
+        view.setTitleColor(.black, for: .normal)
+        view.setTitle("You have successfully added your product.", for: .normal)
+        background.addSubview(view)
+        return background
+    }
+    
+    func errorFunc() {
+        let view = self.errorLoading()
+        UIView.animate(withDuration: 4, delay: 0.0, options: [.curveEaseOut, .autoreverse], animations: {
+            self.addSubview(view)
+        }, completion: nil)
+        let seconds = 4.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            view.removeFromSuperview()
+        }
+    }
+    
+    func warningDisplay() -> UIView {
+        let background = UIView()
+        background.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height)
+        background.backgroundColor = .black.withAlphaComponent(0.1)
+        
+        let view = UIButton()
+        view.frame = CGRect(x: 50, y: 400, width: 335, height: 50)
+        view.backgroundColor = UIColor(rgb: 0xF26419)
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 5
+        view.setTitleColor(.black, for: .normal)
+        view.setTitle("Please fill in all the fields.", for: .normal)
+        background.addSubview(view)
+        return background
+    }
+    
+    func errorLoading() -> UIView {
+        let background = UIView()
+        background.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height)
+        background.backgroundColor = .black.withAlphaComponent(0.1)
+        
+        let view = UIButton()
+        view.frame = CGRect(x: 50, y: 400, width: 335, height: 50)
+        view.backgroundColor = UIColor(rgb: 0xF26419)
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 5
+        view.setTitleColor(.black, for: .normal)
+        view.setTitle("An error has occured. Please try again later.", for: .normal)
+        background.addSubview(view)
+        return background
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
@@ -72,16 +177,17 @@ class AddPageView: UIView {
         for (index,item) in labelNames.enumerated() {
             let newy = Double(10 + (index * 80))
             scrollView.addSubview(addLabel(textParam: item,  y: newy))
-            scrollView.addSubview(addTextField( y: newy + 30.0))
-            //            addSubview(addLabel(textParam: item,  y: newy))
-            //            addSubview(addTextField( y: newy + 30.0))
+            self.textFieldArray.append(addTextField( y: newy + 30.0))
+            scrollView.addSubview(self.textFieldArray[index])
         }
         
         scrollView.addSubview(addButton)
         scrollView.contentSize = CGSize(width: screenWidth - 30, height: 1180)
         addSubview(scrollView)
     }
+    
 }
+
 
 extension UIColor {
     convenience init(red: Int, green: Int, blue: Int) {

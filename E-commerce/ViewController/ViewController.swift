@@ -7,12 +7,12 @@
 
 import UIKit
 import Firebase
+public var myGlobalID = -1
 
 class ViewController: UIViewController {
     
     var lists: [Order] = []
     var ref: DatabaseReference?
-    
     var imageview = UIImageView(image: UIImage(named: "MovePic"))
     
     override func viewDidLoad() {
@@ -30,10 +30,12 @@ class ViewController: UIViewController {
                 if let snapshot = child as? DataSnapshot,
                    let newOrder = Order(snapshot: snapshot) {
                     newLists.append(newOrder)
+                    if Int(newOrder.rowID)! > myGlobalID {
+                        myGlobalID = Int(newOrder.rowID)!
+                    }
                 }
             }
             self.lists = newLists
-            //            self.tableView.reloadData()
             print(self.lists)
         })
     }
