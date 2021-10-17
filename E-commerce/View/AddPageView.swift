@@ -7,12 +7,15 @@
 
 import UIKit
 
+@IBDesignable
+
 class AddPageView: UIView {
     
     let labelNames = ["Category","City","Country","Discount","Product ID","Product Name","Profit","Quantity","Sales","Ship Mode","State","Sub-Category",]
     
     var textFieldArray: [UITextField] = []
     var vc = AddViewController()
+    let mainViewController = AddViewController()
     
     func addLabel(textParam:String, y:Double) -> UILabel {
         let label = UILabel()
@@ -78,7 +81,7 @@ class AddPageView: UIView {
         }
     }
     
-    func successFunc() {
+    public func successFunc() {
         let view = self.successLoading()
         UIView.animate(withDuration: 4, delay: 0.0, options: [.curveEaseOut, .autoreverse], animations: {
             self.addSubview(view)
@@ -89,7 +92,7 @@ class AddPageView: UIView {
         }
     }
     
-    func successLoading() -> UIView {
+    public func successLoading() -> UIView {
         
         for item in textFieldArray {
             item.text = ""

@@ -41,23 +41,20 @@ class ViewController: UIViewController {
     }
     
     @IBAction func AddButton(_ sender: Any) {
-        self.imageview.removeFromSuperview()
-        self.addGif(name: "Move", x: 260, y: 50, width: 200, height: 150)
-        let seconds = 2.0
-        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
-            let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "AddViewController") as? AddViewController
-            vc!.modalPresentationStyle = .fullScreen
-            self.present(vc!, animated: true)
-        }
+        
+        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "AddViewController") as? AddViewController
+        vc!.modalPresentationStyle = .fullScreen
+        self.present(vc!, animated: true)
     }
     
     @IBAction func ListButton(_ sender: Any) {
         self.imageview.removeFromSuperview()
         self.addGif(name: "Move", x: 260, y: 50, width: 200, height: 150)
-        let seconds = 2.0
+        let seconds = 2.5
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
             let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ListTableViewController") as? ListTableViewController
             vc!.modalPresentationStyle = .fullScreen
+            vc!.lists = self.lists
             self.present(vc!, animated: true)
         }
     }
