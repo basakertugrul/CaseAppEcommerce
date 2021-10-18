@@ -49,13 +49,12 @@ class ProductDetailViewController: UIViewController {
     }
     
     @IBAction func GoBackButton(_ sender: Any) {
-        let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ListTableViewController") as? ListTableViewController
-        vc!.modalPresentationStyle = .fullScreen
-        self.present(vc!, animated: true)
+        self.dismiss(animated: true, completion: nil)
     }
     
     @IBAction func deleteProductButton(_ sender: Any) {
         let item = self.product
         item?.ref?.removeValue()
+        self.GoBackButton((Any).self)
     }
 }

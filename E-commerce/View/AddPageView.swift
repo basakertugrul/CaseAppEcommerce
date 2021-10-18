@@ -39,14 +39,13 @@ class AddPageView: UIView {
         field.layer.cornerRadius = 5
         field.textColor = .white
         field.font = UIFont.systemFont(ofSize: 18.00)
-        field.text = "asdf"
         return field
     }
     
     lazy var addButton: UIButton = {
         let button = UIButton()
         button.frame = CGRect(x: 135, y: 980, width: 100, height: 50)
-        button.backgroundColor = UIColor(rgb: 0xF26419)
+        button.backgroundColor = UIColor(rgb: 0xF6AE2D)
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 5
         button.setTitle("UPLOAD", for: .normal)
@@ -104,11 +103,12 @@ class AddPageView: UIView {
         
         let view = UIButton()
         view.frame = CGRect(x: 50, y: 400, width: 335, height: 50)
-        view.backgroundColor = UIColor(rgb: 0xF26419)
+        view.backgroundColor = UIColor(rgb: 0xF6AE2D)
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 5
         view.setTitleColor(.black, for: .normal)
         view.setTitle("You have successfully added your product.", for: .normal)
+        view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         background.addSubview(view)
         return background
     }
@@ -131,11 +131,12 @@ class AddPageView: UIView {
         
         let view = UIButton()
         view.frame = CGRect(x: 50, y: 400, width: 335, height: 50)
-        view.backgroundColor = UIColor(rgb: 0xF26419)
+        view.backgroundColor = UIColor(rgb: 0xF6AE2D)
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 5
         view.setTitleColor(.black, for: .normal)
         view.setTitle("Please fill in all the fields.", for: .normal)
+        view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         background.addSubview(view)
         return background
     }
@@ -147,11 +148,12 @@ class AddPageView: UIView {
         
         let view = UIButton()
         view.frame = CGRect(x: 50, y: 400, width: 335, height: 50)
-        view.backgroundColor = UIColor(rgb: 0xF26419)
+        view.backgroundColor = UIColor(rgb: 0xF6AE2D)
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 5
         view.setTitleColor(.black, for: .normal)
         view.setTitle("An error has occured. Please try again later.", for: .normal)
+        view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         background.addSubview(view)
         return background
     }
@@ -181,6 +183,7 @@ class AddPageView: UIView {
             let newy = Double(10 + (index * 80))
             scrollView.addSubview(addLabel(textParam: item,  y: newy))
             self.textFieldArray.append(addTextField( y: newy + 30.0))
+//            self.textFieldArray[index].text = "asasdf"
             scrollView.addSubview(self.textFieldArray[index])
         }
         

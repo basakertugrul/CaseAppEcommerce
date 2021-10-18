@@ -26,24 +26,15 @@ class ListTableViewController: UIViewController, UITableViewDelegate, UITableVie
         self.tableView.delaysContentTouches = false
         
         if lists.isEmpty {
-            let ref = Database.database().reference(withPath: "Orders")
-            ref.observe(.value, with: { snapshot in
-                var newLists: [Order] = []
-                for child in snapshot.children {
-                    if let snapshot = child as? DataSnapshot,
-                       let newOrder = Order(snapshot: snapshot) {
-                        newLists.append(newOrder)
-                        if Int(newOrder.rowID)! > myGlobalID {
-                            myGlobalID = Int(newOrder.rowID)!
-                        }
-                    }
-                }
-                self.lists = newLists
-                print(self.lists)
-                self.tableView.reloadData()
-            })
+            self.fetchData()
         }
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+           super.viewDidAppear(animated)
+        self.fetchData()
+        self.tableView.reloadData()
+       }
     
     @IBAction func GoBackButton(_ sender: Any) {
         let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ViewController") as? ViewController
@@ -62,10 +53,10 @@ class ListTableViewController: UIViewController, UITableViewDelegate, UITableVie
         cell.layer.cornerRadius = 10
         cell.layer.masksToBounds = true
         
-        
         if let val = self.categoryImages[self.lists[indexPath.row].subCategory] {
             cell.productImage.image = val
         }
+
         return cell
     }
     
@@ -93,11 +84,29 @@ class ListTableViewController: UIViewController, UITableViewDelegate, UITableVie
         return 150.0
     }
     
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
+    }
+    
+    func fetchData(){
+        let ref = Database.database().reference(withPath: "Orders")
+        ref.observe(.value, with: { snapshot in
+            var newLists: [Order] = []
+            for child in snapshot.children {
+                if let snapshot = child as? DataSnapshot,
+                   let newOrder = Order(snapshot: snapshot) {
+                    newLists.append(newOrder)
+                    if Int(newOrder.rowID)! > myGlobalID {
+                        myGlobalID = Int(newOrder.rowID)!
+                    }
+                }
+            }
+            self.lists = newLists
+            print(self.lists)
+        })
     }
 }
