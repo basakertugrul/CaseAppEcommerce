@@ -8,7 +8,6 @@
 import UIKit
 
 @IBDesignable
-
 class AddPageView: UIView {
     
     let labelNames = ["Category","City","Country","Discount","Product ID","Product Name","Profit","Quantity","Sales","Ship Mode","State","Sub-Category",]
@@ -80,50 +79,6 @@ class AddPageView: UIView {
         }
     }
     
-    public func successFunc() {
-        let view = self.successLoading()
-        UIView.animate(withDuration: 4, delay: 0.0, options: [.curveEaseOut, .autoreverse], animations: {
-            self.addSubview(view)
-        }, completion: nil)
-        let seconds = 4.0
-        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
-            view.removeFromSuperview()
-        }
-    }
-    
-    public func successLoading() -> UIView {
-        
-        for item in textFieldArray {
-            item.text = ""
-        }
-        
-        let background = UIView()
-        background.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height)
-        background.backgroundColor = .black.withAlphaComponent(0.1)
-        
-        let view = UIButton()
-        view.frame = CGRect(x: 50, y: 400, width: 335, height: 50)
-        view.backgroundColor = UIColor(rgb: 0xF6AE2D)
-        view.layer.masksToBounds = true
-        view.layer.cornerRadius = 5
-        view.setTitleColor(.black, for: .normal)
-        view.setTitle("You have successfully added your product.", for: .normal)
-        view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        background.addSubview(view)
-        return background
-    }
-    
-    func errorFunc() {
-        let view = self.errorLoading()
-        UIView.animate(withDuration: 4, delay: 0.0, options: [.curveEaseOut, .autoreverse], animations: {
-            self.addSubview(view)
-        }, completion: nil)
-        let seconds = 4.0
-        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
-            view.removeFromSuperview()
-        }
-    }
-    
     func warningDisplay() -> UIView {
         let background = UIView()
         background.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height)
@@ -136,23 +91,6 @@ class AddPageView: UIView {
         view.layer.cornerRadius = 5
         view.setTitleColor(.black, for: .normal)
         view.setTitle("Please fill in all the fields.", for: .normal)
-        view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        background.addSubview(view)
-        return background
-    }
-    
-    func errorLoading() -> UIView {
-        let background = UIView()
-        background.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height)
-        background.backgroundColor = .black.withAlphaComponent(0.1)
-        
-        let view = UIButton()
-        view.frame = CGRect(x: 50, y: 400, width: 335, height: 50)
-        view.backgroundColor = UIColor(rgb: 0xF6AE2D)
-        view.layer.masksToBounds = true
-        view.layer.cornerRadius = 5
-        view.setTitleColor(.black, for: .normal)
-        view.setTitle("An error has occured. Please try again later.", for: .normal)
         view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
         background.addSubview(view)
         return background
@@ -183,13 +121,74 @@ class AddPageView: UIView {
             let newy = Double(10 + (index * 80))
             scrollView.addSubview(addLabel(textParam: item,  y: newy))
             self.textFieldArray.append(addTextField( y: newy + 30.0))
-//            self.textFieldArray[index].text = "asasdf"
+            self.textFieldArray[index].text = "asasdf"
             scrollView.addSubview(self.textFieldArray[index])
         }
         
         scrollView.addSubview(addButton)
         scrollView.contentSize = CGSize(width: screenWidth - 30, height: 1180)
         addSubview(scrollView)
+    }
+    
+    public func successFunc() {
+        let view = self.successLoading()
+        UIView.animate(withDuration: 4, delay: 0.0, options: [.curveEaseOut, .autoreverse], animations: {
+            self.addSubview(view)
+        }, completion: nil)
+        let seconds = 4.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            view.removeFromSuperview()
+        }
+    }
+    
+    func successLoading() -> UIView {
+        
+        for item in textFieldArray {
+            item.text = ""
+        }
+        
+        let background = UIView()
+        background.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height)
+        background.backgroundColor = .black.withAlphaComponent(0.1)
+        
+        let view = UIButton()
+        view.frame = CGRect(x: 50, y: 400, width: 335, height: 50)
+        view.backgroundColor = UIColor(rgb: 0xF6AE2D)
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 5
+        view.setTitleColor(.black, for: .normal)
+        view.setTitle("You have successfully added your product.", for: .normal)
+        view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        background.addSubview(view)
+        return background
+    }
+    
+    public func errorFunc() {
+        let view = self.errorLoading()
+        UIView.animate(withDuration: 4, delay: 0.0, options: [.curveEaseOut, .autoreverse], animations: {
+            self.addSubview(view)
+        }, completion: nil)
+        let seconds = 4.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            view.removeFromSuperview()
+        }
+    }
+    
+    func errorLoading() -> UIView {
+        let background = UIView()
+        background.frame = CGRect(x: 0, y: 0, width: self.bounds.width, height: self.bounds.height)
+        background.backgroundColor = .black.withAlphaComponent(0.1)
+        
+        let view = UIButton()
+        view.frame = CGRect(x: 50, y: 400, width: 335, height: 50)
+        view.backgroundColor = UIColor(rgb: 0xF6AE2D)
+        view.layer.masksToBounds = true
+        view.layer.cornerRadius = 5
+        view.setTitleColor(.black, for: .normal)
+        view.setTitle("An error has occured. Please try again later.", for: .normal)
+        view.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
+        background.addSubview(view)
+        return background
     }
     
 }

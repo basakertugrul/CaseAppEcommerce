@@ -13,16 +13,11 @@ class AddViewController: UIViewController {
     var data: [String] = []
     var ref: DatabaseReference?
     
-    @IBOutlet weak var subView: AddPageView!
-    
+    @IBOutlet var subView: AddPageView!
     
     func dataUpdate(data: [String]){
         self.data = data
         self.addData(data: self.data)
-    }
-    
-    func idUpdate(id: Int){
-        //        self.id = id
     }
     
     override func viewDidLoad() {
@@ -44,10 +39,11 @@ class AddViewController: UIViewController {
         let item = Order(rowID: String(myGlobalID + 1), shipMode: data[9], country: data[2], city: data[1], state: data[10], productID: data[4], category: data[0], subCategory: data[11], productName: data[5], sales: data[8], quantity: data[7], discount: data[3], profit: data[6])
         self.ref?.child(String(myGlobalID)).setValue(item.toAnyObject())
         { (err, ref) in
-//            self.subView.errorFunc()
+//            AddPageView().errorFunc()
             return
         }
         myGlobalID += 1
-//        self.subView.successFunc()
+//        AddPageView().successFunc()
     }
+    
 }

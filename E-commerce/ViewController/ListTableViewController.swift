@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import ExpandableButton
 
 class ListTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -28,13 +29,76 @@ class ListTableViewController: UIViewController, UITableViewDelegate, UITableVie
         if lists.isEmpty {
             self.fetchData()
         }
+        
+        let frame = CGRect(x: 315, y: 45, width: 90, height: 60)
+        let items = [
+            ExpandableButtonItem(
+                attributedTitle: NSAttributedString(
+                    string: "Name",
+                    attributes: [.foregroundColor: UIColor.black]
+                ),
+                highlightedAttributedTitle: NSAttributedString(
+                    string: "Name",
+                    attributes: [.foregroundColor: UIColor.lightGray]
+                ),
+                action: {_ in
+                    self.lists.sort {$0.productName < $1.productName}
+                    for item in self.lists {
+                        print(item.productName)
+                    }
+                    self.tableView.reloadData()
+                }
+            ),
+            ExpandableButtonItem(
+                attributedTitle: NSAttributedString(
+                    string: "Price",
+                    attributes: [.foregroundColor: UIColor.black]
+                ),
+                highlightedAttributedTitle: NSAttributedString(
+                    string: "Price",
+                    attributes: [.foregroundColor: UIColor.lightGray]
+                ),
+                action: {_ in
+                    self.lists.sort {$0.sales < $1.sales}
+                    for item in self.lists {
+                        print(item.sales)
+                    }
+                    self.tableView.reloadData()
+                }
+                
+            ),
+            ExpandableButtonItem(
+                attributedTitle: NSAttributedString(
+                    string: "Category",
+                    attributes: [.foregroundColor: UIColor.black]
+                ),
+                highlightedAttributedTitle: NSAttributedString(
+                    string: "Category",
+                    attributes: [.foregroundColor: UIColor.lightGray]
+                ),
+                action: {_ in
+                    self.lists.sort {$0.category < $1.category}
+                    for item in self.lists {
+                        print(item.category)
+                    }
+                    self.tableView.reloadData()
+                }
+                
+            )
+        ]
+        let buttonView = ExpandableButtonView(frame: frame, direction: .down, items: items)
+        buttonView.backgroundColor = UIColor(rgb: 0x33658A)
+        buttonView.arrowWidth = 2
+        buttonView.separatorWidth = 2
+        buttonView.layer.cornerRadius = 30
+        view.addSubview(buttonView)
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
-           super.viewDidAppear(animated)
+        super.viewDidAppear(animated)
         self.fetchData()
         self.tableView.reloadData()
-       }
+    }
     
     @IBAction func GoBackButton(_ sender: Any) {
         let vc = UIStoryboard.init(name: "Main", bundle: Bundle.main).instantiateViewController(withIdentifier: "ViewController") as? ViewController
@@ -56,7 +120,7 @@ class ListTableViewController: UIViewController, UITableViewDelegate, UITableVie
         if let val = self.categoryImages[self.lists[indexPath.row].subCategory] {
             cell.productImage.image = val
         }
-
+        
         return cell
     }
     

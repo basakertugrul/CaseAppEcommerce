@@ -8,6 +8,7 @@ target 'E-commerce' do
   # Pods for E-commerce
 pod 'Firebase'
 pod 'Firebase/Database'
+pod 'ExpandableButton'
 
   target 'E-commerceTests' do
     inherit! :search_paths
